@@ -69,8 +69,8 @@ public class GameManager : MonoBehaviour
     {
         //if (m_fader.fadeDone)
         //{
-            Navigate(1);
-            Instantiate(m_animalLevel);
+        Navigate(1);
+        Instantiate(m_animalLevel);
         //}
     }
 
@@ -78,8 +78,8 @@ public class GameManager : MonoBehaviour
     {
         //if (m_fader.fadeDone)
         //{
-            Navigate(1);
-            Instantiate(m_colorLevel);
+        Navigate(1);
+        Instantiate(m_colorLevel);
         //}
     }
 
@@ -87,8 +87,8 @@ public class GameManager : MonoBehaviour
     {
         //if (m_fader.fadeDone)
         //{
-            Navigate(1);
-            Instantiate(m_clothLevel);
+        Navigate(1);
+        Instantiate(m_clothLevel);
         //}
     }
 
@@ -96,8 +96,8 @@ public class GameManager : MonoBehaviour
     {
         //if (m_fader.fadeDone)
         //{
-            Navigate(1);
-            Instantiate(m_numberLevel);
+        Navigate(1);
+        Instantiate(m_numberLevel);
         //}
     }
 
@@ -110,10 +110,13 @@ public class GameManager : MonoBehaviour
     {
         LevelScript ls = FindObjectOfType<LevelScript>();
 
-        if (ls.m_canTouch)
+        if (ls.m_isSoundPlaying)
         {
-            if (ls.m_lastClip != null) StartCoroutine(ls.PlaySound(ls.m_lastClip, false));
+            ls.m_audioSource.Stop();
+            ls.m_isSoundPlaying = false;
         }
+
+        if (ls.m_lastClip != null) StartCoroutine(ls.PlaySound(ls.m_lastClip, false));
     }
 
     public void Navigate(int scene)
@@ -127,7 +130,7 @@ public class GameManager : MonoBehaviour
 
                 LevelScript ls = FindObjectOfType<LevelScript>();
 
-                if(ls!=null) Destroy(ls.gameObject);
+                if (ls != null) Destroy(ls.gameObject);
 
                 m_otherAudioSource.Stop();
                 m_mainAudioSource.clip = m_menuSong;

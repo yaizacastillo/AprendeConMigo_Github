@@ -20,8 +20,7 @@ public class LevelScript : MonoBehaviour {
     public List<GameObject> m_cards = new List<GameObject>();
     private List<GameObject> m_remainingCards = new List<GameObject>();
 
-    public bool m_canTouch = false;
-    //public bool m_playSound = true;
+    [HideInInspector] public bool m_isSoundPlaying = true;
     private bool m_answerIsCorrect = false;
 
     Canvas m_canvas;
@@ -52,8 +51,6 @@ public class LevelScript : MonoBehaviour {
 
     private void Update()
     {
-        if(m_canTouch)
-        {
             if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
             {
                 if (Input.touchCount > 0 && Input.touchCount < 2)
@@ -71,13 +68,10 @@ public class LevelScript : MonoBehaviour {
                     CheckTouch(Input.mousePosition);
                 }
             }
-        }
     }
 
     private IEnumerator ShowCards()
     {
-        print("Show cards");
-
         //m_playSound = false;
 
         //yield return new WaitForSeconds(5.0f); //duracion de la animacion
@@ -89,8 +83,6 @@ public class LevelScript : MonoBehaviour {
 
     public void PlaceCards()
     {
-        print("Place cards");
-
         for(int i = 0; i < m_cards.Count; i++)
         {
             int l_rdm = Random.Range(0, m_remainingCards.Count);
@@ -110,20 +102,24 @@ public class LevelScript : MonoBehaviour {
 
     public IEnumerator PlaySound(AudioClip sound, bool save)
     {
-        print("Play sound");
-        //m_playSound = false;
-        m_canTouch = false;
+        m_isSoundPlaying = true;
         m_audioSource.PlayOneShot(sound);
-        yield return new WaitForSeconds(sound.length);
         if (save) m_lastClip = sound;
-        m_canTouch = true;
+        yield return new WaitForSeconds(sound.length);
         if (sound == m_correctSound) PlayRandomSound();
         else if (sound == m_clickSound) StartCoroutine(PlaySound(m_tryAgainSound, false));
-        print("End sound");
+        else m_isSoundPlaying = false;
     }
 
     private void CheckTouch(Vector3 pos)
     {
+        if(m_isSoundPlaying)
+        {
+            StopAllCoroutines();
+            m_audioSource.Stop();
+            m_isSoundPlaying = false;
+        }
+
         RaycastHit2D hitInfo = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(pos), Vector2.zero);
 
         if (hitInfo)
@@ -143,9 +139,7 @@ public class LevelScript : MonoBehaviour {
 
                 if (m_remainingSounds.Count == 0)
                 {
-                    print("end level");
-                    m_canTouch = false;
-                    SaveManager.Instance.LevelCompleted();
+                    //SaveManager.Instance.LevelCompleted();
                     m_gameManager.EndLevel();
                     //StartCoroutine(PlaySound(m_endLevelSound, false));
                 }
