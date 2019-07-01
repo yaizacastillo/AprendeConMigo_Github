@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public AudioClip m_menuSong, m_gameSong;
 
     private Vector3 m_desiredPosition;
+    public float leftMovementCanvas;
 
     FaderScript m_fader;
 
@@ -134,7 +135,7 @@ public class GameManager : MonoBehaviour
 
                 break;
             case 1: //game
-                m_desiredPosition = Vector3.left * 1280;
+                m_desiredPosition = Vector3.left * leftMovementCanvas; //1280
 
                 m_mainAudioSource.clip = m_gameSong;
                 m_mainAudioSource.Play();

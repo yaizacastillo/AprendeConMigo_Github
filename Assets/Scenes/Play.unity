@@ -303,6 +303,7 @@ MonoBehaviour:
   m_otherAudioSource: {fileID: 65440534}
   m_menuSong: {fileID: 8300000, guid: 552129a0f0c75d147858f55e7769dbcd, type: 3}
   m_gameSong: {fileID: 8300000, guid: 0e388a91c0c3f1043aaf5b77f493861f, type: 3}
+  leftMovementCanvas: 1280
   m_scenesContainer: {fileID: 994746228}
   m_animalLevel: {fileID: 114559830788003186, guid: 0475651d48616fe47b2296d2e6a17ca8,
     type: 3}
