@@ -1,0 +1,154 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1606902977781084}
+  m_IsPrefabParent: 1
+--- !u!1 &1606902977781084
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4651308806479346}
+  - component: {fileID: 114318154591686724}
+  - component: {fileID: 82660139068536974}
+  m_Layer: 0
+  m_Name: NumberController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4651308806479346
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1606902977781084}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &82660139068536974
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1606902977781084}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+--- !u!114 &114318154591686724
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1606902977781084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 213d2ac4feddb4d4592ca4ca1cad07fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_audioSource: {fileID: 82660139068536974}
+  m_startingSounds:
+  - {fileID: 8300000, guid: aab065d91de7ed645bc48c06b6de367e, type: 3}
+  - {fileID: 8300000, guid: bd63414984438a14cb82f9270b7294e7, type: 3}
+  - {fileID: 8300000, guid: a39cc9d64f3ff4441a5c882952e75132, type: 3}
+  - {fileID: 8300000, guid: 98ada5ee9e91f8e4b9b15f18f9428063, type: 3}
+  - {fileID: 8300000, guid: 64af201626683c94ead29e5fe96bc32e, type: 3}
+  - {fileID: 8300000, guid: f4333127be553264f9320f752a741a23, type: 3}
+  m_lastClip: {fileID: 0}
+  m_clickSound: {fileID: 8300000, guid: 9e39f449ea0b0f045a0fbaa20ee7f588, type: 3}
+  m_correctSound: {fileID: 8300000, guid: 2c3567a8800854b4b9a8265ee0c5bff6, type: 3}
+  m_tryAgainSound: {fileID: 8300000, guid: 5500179a54e2d09478f112e3fba85f94, type: 3}
+  m_cards:
+  - {fileID: 1000944480935044, guid: 4fe0ec52c4e3abe43b1d894a6054674b, type: 2}
+  - {fileID: 1603222718009652, guid: e96d856a90fe9304e915b4c35dbaae7d, type: 2}
+  - {fileID: 1248132151314564, guid: 41d1800f987aa4c46af05cfb41676394, type: 2}
+  - {fileID: 1879145916375602, guid: 36c0a70325b7de342af6a8c36f4fb932, type: 2}
+  - {fileID: 1581250753982234, guid: eebdd1924d0374c43a19d6033eab72ce, type: 2}
+  - {fileID: 1821935883629192, guid: 7f61c44be537b8e40b4193a182549b33, type: 2}
+  m_canTouch: 0
