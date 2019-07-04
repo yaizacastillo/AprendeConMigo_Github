@@ -56,14 +56,14 @@ MonoBehaviour:
   m_clickSound: {fileID: 8300000, guid: 9e39f449ea0b0f045a0fbaa20ee7f588, type: 3}
   m_correctSound: {fileID: 8300000, guid: 2c3567a8800854b4b9a8265ee0c5bff6, type: 3}
   m_tryAgainSound: {fileID: 8300000, guid: 5500179a54e2d09478f112e3fba85f94, type: 3}
-  m_cards:
+  m_startingCards:
   - {fileID: 1100943655834640, guid: aaa974047a4b3d94db2d4b02255510aa, type: 3}
   - {fileID: 1702558204404596, guid: 23ace9badd7637c4ea1ffe2cc80c5973, type: 3}
   - {fileID: 1481366244625670, guid: 97417ddcb63e58e4ea23cb452b09883b, type: 3}
   - {fileID: 1727950319043194, guid: 7df05d189c368ed4e84b837534beab08, type: 3}
   - {fileID: 1487222935348816, guid: 40ae31827f059ac43b6847e5581096ce, type: 3}
   - {fileID: 1989827886181600, guid: efcee51e30b72fa478511b12c0dafeb1, type: 3}
-  m_isSoundPlaying: 1
+  m_currentState: 0
 --- !u!82 &82664049650923196
 AudioSource:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public AudioSource m_mainAudioSource, m_otherAudioSource;
 
-    public AudioClip m_menuSong, m_gameSong;
+    public AudioClip m_menuSong, m_gameSong, m_startLevelSound;
 
     public ParticleSystem clickParticleSystem;
 
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     public Transform m_levelsContainer;
 
-    public GameObject m_winPanel;
+    public GameObject m_winPanel, m_startLevelPanel;
 
     public bool m_debugMode;
 
@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
         m_mainAudioSource.clip = m_menuSong;
         m_mainAudioSource.Play();
         m_winPanel.SetActive(false);
+        m_startLevelPanel.SetActive(false);
     }
 
     private void Update()
@@ -112,10 +113,10 @@ public class GameManager : MonoBehaviour
     {
         LevelScript ls = FindObjectOfType<LevelScript>();
 
-        if (ls.m_isSoundPlaying)
+        if (ls.m_currentState == LevelScript.levelState.playing)
         {
             ls.m_audioSource.Stop();
-            ls.m_isSoundPlaying = false;
+            ls.m_currentState = LevelScript.levelState.showing;
         }
 
         if (ls.m_lastClip != null) StartCoroutine(ls.PlaySound(ls.m_lastClip, false));
@@ -204,5 +205,15 @@ public class GameManager : MonoBehaviour
 
         m_winPanel.SetActive(true);
         m_otherAudioSource.Play();
+    }
+
+    public IEnumerator StartLevel()
+    {
+        LevelScript ls = FindObjectOfType<LevelScript>();
+        m_startLevelPanel.SetActive(true);
+        ls.m_audioSource.PlayOneShot(m_startLevelSound);
+        yield return new WaitForSeconds(m_startLevelSound.length);
+        m_startLevelPanel.SetActive(false);
+        ls.PlayRandomSound();
     }
 }

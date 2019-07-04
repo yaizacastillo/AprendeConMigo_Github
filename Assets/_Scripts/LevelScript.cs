@@ -20,19 +20,28 @@ public class LevelScript : MonoBehaviour {
 
     private List<Vector3> m_cardsPosition = new List<Vector3>();
 
-    public List<GameObject> m_cards = new List<GameObject>();
+    public List<GameObject> m_startingCards = new List<GameObject>();
     private List<GameObject> m_remainingCards = new List<GameObject>();
+    private List<Collider2D> m_cardsCollider = new List<Collider2D>();
 
-    [HideInInspector] public bool m_isSoundPlaying = true;
     private bool m_answerIsCorrect = false;
 
-    Canvas m_canvas;
+    bool touch = false;
+
+    public enum levelState
+    {
+        showing,
+        playing,
+        waiting
+    }
+
+    public levelState m_currentState = levelState.showing;
+
     ParticleSystem clickParticle;
 
     private void Start()
     {
         m_gameManager = FindObjectOfType<GameManager>();
-       
 
         foreach (AudioClip a in m_startingSounds)
         {
@@ -40,7 +49,7 @@ public class LevelScript : MonoBehaviour {
             m_showingSounds.Add(a);
         }
 
-        foreach (GameObject card in m_cards)
+        foreach (GameObject card in m_startingCards)
         {
             m_remainingCards.Add(card);
         }
@@ -82,62 +91,64 @@ public class LevelScript : MonoBehaviour {
 
         yield return new WaitForSeconds(1.0f);
 
-        for (int i = 0; i < m_cards.Count; i++)
+        for (int i = 0; i < m_startingCards.Count; i++)
         {
-            int l_rdm = Random.Range(0, m_remainingCards.Count);
+            if (touch)
+            {
+                int l_rdm = Random.Range(0, m_remainingCards.Count);
+                Instantiate(m_remainingCards[l_rdm], m_cardsPosition[i], Quaternion.identity, this.transform);
+                m_remainingCards.RemoveAt(l_rdm);
+            }
 
-            GameObject card = Instantiate(m_remainingCards[l_rdm], m_cardsPosition[i], Quaternion.identity, this.transform);
+            else
+            {
 
-            AudioClip l_sound = m_showingSounds[l_rdm];
+                int l_rdm = Random.Range(0, m_remainingCards.Count);
 
-            m_audioSource.PlayOneShot(l_sound);
+                GameObject card = Instantiate(m_remainingCards[l_rdm], m_cardsPosition[i], Quaternion.identity, this.transform);
+                Collider2D collider = card.GetComponent<Collider2D>();
 
-            yield return new WaitForSeconds(l_sound.length + 0.5f);
+                m_cardsCollider.Add(collider);
+                collider.enabled = false;
 
-            Animator l_cardAnimator = card.GetComponent<Animator>();
-            l_showingCards.Add(l_cardAnimator);
-            l_cardAnimator.SetTrigger("Disable");
+                AudioClip l_sound = m_showingSounds[l_rdm];
 
-            m_remainingCards.RemoveAt(l_rdm);
-            m_showingSounds.RemoveAt(l_rdm);
+                m_audioSource.PlayOneShot(l_sound);
 
-            yield return new WaitForSeconds(1.0f);
+                yield return new WaitForSeconds(l_sound.length + 0.5f);
+
+                m_remainingCards.RemoveAt(l_rdm);
+                m_showingSounds.RemoveAt(l_rdm);
+
+                if (touch)
+                    continue;
+
+                Animator l_cardAnimator = card.GetComponent<Animator>();
+                l_showingCards.Add(l_cardAnimator);
+                l_cardAnimator.SetTrigger("Disable");
+
+                yield return new WaitForSeconds(1.0f);
+            }
         }
 
         yield return new WaitForSeconds(0.5f);
 
-        foreach(Animator a in l_showingCards)
+        foreach (Animator a in l_showingCards)
         {
             a.SetTrigger("Enable");
         }
 
         yield return new WaitForSeconds(1.0f);
 
-        PlayRandomSound();
-        ////m_playSound = false;
-
-        ////yield return new WaitForSeconds(5.0f); //duracion de la animacion
-
-        //yield return new WaitForSeconds(1.0f);
-
-        //PlaceCards();
-
-    }
-
-    public void PlaceCards()
-    {
-        for(int i = 0; i < m_cards.Count; i++)
+        foreach (Collider2D collider in m_cardsCollider)
         {
-            int l_rdm = Random.Range(0, m_remainingCards.Count);
-
-            Instantiate(m_remainingCards[l_rdm], m_cardsPosition[i], Quaternion.identity, this.transform);
-            m_remainingCards.RemoveAt(l_rdm);
+            collider.enabled = true;
         }
 
-        PlayRandomSound();
+        StartCoroutine(m_gameManager.StartLevel());
     }
 
-    private void PlayRandomSound()
+    public void PlayRandomSound()
     {
         int rdm = Random.Range(0, m_remainingSounds.Count);
         StartCoroutine(PlaySound(m_remainingSounds[rdm], true));
@@ -145,22 +156,27 @@ public class LevelScript : MonoBehaviour {
 
     public IEnumerator PlaySound(AudioClip sound, bool save)
     {
-        m_isSoundPlaying = true;
+        m_currentState = levelState.playing;
         m_audioSource.PlayOneShot(sound);
         if (save) m_lastClip = sound;
         yield return new WaitForSeconds(sound.length);
         if (sound == m_correctSound) PlayRandomSound();
         else if (sound == m_clickSound) StartCoroutine(PlaySound(m_tryAgainSound, false));
-        else m_isSoundPlaying = false;
+        m_currentState = levelState.waiting;
     }
 
     private void CheckTouch(Vector3 pos)
     {
-        if(m_isSoundPlaying)
+        switch (m_currentState)
         {
-            StopAllCoroutines();
-            m_audioSource.Stop();
-            m_isSoundPlaying = false;
+            case levelState.playing:
+                StopAllCoroutines();
+                m_audioSource.Stop();
+                m_currentState = levelState.waiting;
+                break;
+            case levelState.showing:
+                touch = true;
+                break;
         }
 
         RaycastHit2D hitInfo = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(pos), Vector2.zero);
