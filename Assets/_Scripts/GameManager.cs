@@ -212,7 +212,7 @@ public class GameManager : MonoBehaviour
         LevelScript ls = FindObjectOfType<LevelScript>();
         m_startLevelPanel.SetActive(true);
         ls.m_audioSource.PlayOneShot(m_startLevelSound);
-        yield return new WaitForSeconds(m_startLevelSound.length);
+        yield return new WaitForSeconds(m_startLevelSound.length + 0.5f);
         m_startLevelPanel.SetActive(false);
         ls.PlayRandomSound();
     }

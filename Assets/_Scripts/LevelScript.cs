@@ -115,7 +115,7 @@ public class LevelScript : MonoBehaviour {
 
                 m_audioSource.PlayOneShot(l_sound);
 
-                yield return new WaitForSeconds(l_sound.length + 0.5f);
+                yield return new WaitForSeconds(l_sound.length);
 
                 m_remainingCards.RemoveAt(l_rdm);
                 m_showingSounds.RemoveAt(l_rdm);
@@ -127,7 +127,7 @@ public class LevelScript : MonoBehaviour {
                 l_showingCards.Add(l_cardAnimator);
                 l_cardAnimator.SetTrigger("Disable");
 
-                yield return new WaitForSeconds(1.0f);
+                yield return new WaitForSeconds(0.5f);
             }
         }
 
@@ -162,7 +162,7 @@ public class LevelScript : MonoBehaviour {
         yield return new WaitForSeconds(sound.length);
         if (sound == m_correctSound) PlayRandomSound();
         else if (sound == m_clickSound) StartCoroutine(PlaySound(m_tryAgainSound, false));
-        m_currentState = levelState.waiting;
+        else m_currentState = levelState.waiting;
     }
 
     private void CheckTouch(Vector3 pos)
