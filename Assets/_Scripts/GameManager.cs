@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 
     public AudioClip m_menuSong, m_gameSong;
 
+    public ParticleSystem clickParticleSystem;
+
     private Vector3 m_desiredPosition;
     public float leftMovementCanvas;
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class LevelScript : MonoBehaviour {
 
     GameManager m_gameManager;
@@ -26,10 +27,12 @@ public class LevelScript : MonoBehaviour {
     private bool m_answerIsCorrect = false;
 
     Canvas m_canvas;
+    ParticleSystem clickParticle;
 
     private void Start()
     {
         m_gameManager = FindObjectOfType<GameManager>();
+       
 
         foreach (AudioClip a in m_startingSounds)
         {
@@ -175,6 +178,10 @@ public class LevelScript : MonoBehaviour {
 
             else
             {
+              
+                m_gameManager.clickParticleSystem.transform.position = hitInfo.transform.position;
+                m_gameManager.clickParticleSystem.Play();
+
                 m_remainingSounds.Remove(m_lastClip);
 
                 if (m_remainingSounds.Count == 0)
