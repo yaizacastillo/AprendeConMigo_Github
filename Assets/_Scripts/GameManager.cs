@@ -5,9 +5,28 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public AudioSource m_mainAudioSource, m_otherAudioSource;
+    [Header("Audiosources")]
+    public AudioSource m_mainAudioSource;
+    public AudioSource m_otherAudioSource;
 
-    public AudioClip m_menuSong, m_gameSong, m_startLevelSound;
+    [Header("Clips")]
+    public AudioClip m_menuSong;
+    public AudioClip m_gameSong;
+    public AudioClip m_startLevelSound;
+
+    [Header("Prefabs of level controllers")]
+    public LevelScript m_animalLevel;
+    public LevelScript m_colorLevel;
+    public LevelScript m_clothLevel;
+    public LevelScript m_numberLevel;
+
+    [Header("Level Colors")]
+    public Color m_animalColor;
+    public Color m_colorColor;
+    public Color m_clothColor;
+    public Color m_numberColor;
+
+    [Space(20)]
 
     public ParticleSystem clickParticleSystem;
 
@@ -18,19 +37,19 @@ public class GameManager : MonoBehaviour
 
     public RectTransform m_scenesContainer;
 
-    public LevelScript m_animalLevel;
-    public LevelScript m_colorLevel;
-    public LevelScript m_clothLevel;
-    public LevelScript m_numberLevel;
-
     public Transform m_levelsContainer;
 
     public GameObject m_winPanel, m_startLevelPanel;
 
     public bool m_debugMode;
 
+    private Color m_mainColor;
+    private Camera m_cam;
+
     private void Start()
     {
+        m_cam = Camera.main;
+        m_mainColor = m_cam.backgroundColor;
         m_fader = FindObjectOfType<FaderScript>();
         UpdateMenuButtons();
         if (m_mainAudioSource != null) m_mainAudioSource = GetComponent<AudioSource>();
@@ -53,6 +72,7 @@ public class GameManager : MonoBehaviour
                     if (Input.GetTouch(0).phase == TouchPhase.Began)
                     {
                         m_winPanel.SetActive(false);
+                        m_cam.backgroundColor = m_mainColor;
                         Navigate(0);
                     }
                 }
@@ -62,6 +82,7 @@ public class GameManager : MonoBehaviour
                 if (Input.GetMouseButtonDown(0))
                 {
                     m_winPanel.SetActive(false);
+                    m_cam.backgroundColor = m_mainColor;
                     Navigate(0);
                 }
             }
@@ -74,6 +95,7 @@ public class GameManager : MonoBehaviour
         //{
         Navigate(1);
         Instantiate(m_animalLevel);
+        m_cam.backgroundColor = m_animalColor;
         //}
     }
 
@@ -83,6 +105,7 @@ public class GameManager : MonoBehaviour
         //{
         Navigate(1);
         Instantiate(m_colorLevel);
+        m_cam.backgroundColor = m_colorColor;
         //}
     }
 
@@ -92,6 +115,7 @@ public class GameManager : MonoBehaviour
         //{
         Navigate(1);
         Instantiate(m_clothLevel);
+        m_cam.backgroundColor = m_clothColor;
         //}
     }
 
@@ -101,12 +125,14 @@ public class GameManager : MonoBehaviour
         //{
         Navigate(1);
         Instantiate(m_numberLevel);
+        m_cam.backgroundColor = m_numberColor;
         //}
     }
 
     public void OnClickMenu()
     {
         Navigate(0);
+        m_cam.backgroundColor = m_mainColor;
     }
 
     public void OnClickReplay()
