@@ -11,6 +11,8 @@ public class LevelScript : MonoBehaviour {
 
     public List<AudioClip> m_startingSounds = new List<AudioClip>();
     private List<AudioClip> m_remainingSounds = new List<AudioClip>();
+    private List<AudioClip> m_showingSounds = new List<AudioClip>();
+
     [HideInInspector] public AudioClip m_lastClip = null;
 
     public AudioClip m_clickSound, m_correctSound, m_tryAgainSound;
@@ -32,6 +34,7 @@ public class LevelScript : MonoBehaviour {
         foreach (AudioClip a in m_startingSounds)
         {
             m_remainingSounds.Add(a);
+            m_showingSounds.Add(a);
         }
 
         foreach (GameObject card in m_cards)
@@ -72,13 +75,50 @@ public class LevelScript : MonoBehaviour {
 
     private IEnumerator ShowCards()
     {
-        //m_playSound = false;
-
-        //yield return new WaitForSeconds(5.0f); //duracion de la animacion
+        List<Animator> l_showingCards = new List<Animator>();
 
         yield return new WaitForSeconds(1.0f);
 
-        PlaceCards();
+        for (int i = 0; i < m_cards.Count; i++)
+        {
+            int l_rdm = Random.Range(0, m_remainingCards.Count);
+
+            GameObject card = Instantiate(m_remainingCards[l_rdm], m_cardsPosition[i], Quaternion.identity, this.transform);
+
+            AudioClip l_sound = m_showingSounds[l_rdm];
+
+            m_audioSource.PlayOneShot(l_sound);
+
+            yield return new WaitForSeconds(l_sound.length + 0.5f);
+
+            Animator l_cardAnimator = card.GetComponent<Animator>();
+            l_showingCards.Add(l_cardAnimator);
+            l_cardAnimator.SetTrigger("Disable");
+
+            m_remainingCards.RemoveAt(l_rdm);
+            m_showingSounds.RemoveAt(l_rdm);
+
+            yield return new WaitForSeconds(1.0f);
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        foreach(Animator a in l_showingCards)
+        {
+            a.SetTrigger("Enable");
+        }
+
+        yield return new WaitForSeconds(1.0f);
+
+        PlayRandomSound();
+        ////m_playSound = false;
+
+        ////yield return new WaitForSeconds(5.0f); //duracion de la animacion
+
+        //yield return new WaitForSeconds(1.0f);
+
+        //PlaceCards();
+
     }
 
     public void PlaceCards()
@@ -147,7 +187,7 @@ public class LevelScript : MonoBehaviour {
                 else
                 {
                     StartCoroutine(PlaySound(m_correctSound, false));
-                    hitInfo.transform.GetComponent<Animator>().SetTrigger("Acierto");
+                    hitInfo.transform.GetComponent<Animator>().SetTrigger("Disable");
                     hitInfo.transform.GetComponent<Collider2D>().enabled = false;
                     //PlayRandomSound();
                 }
