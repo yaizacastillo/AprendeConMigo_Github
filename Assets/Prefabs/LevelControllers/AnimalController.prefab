@@ -56,6 +56,7 @@ MonoBehaviour:
   m_clickSound: {fileID: 8300000, guid: 9e39f449ea0b0f045a0fbaa20ee7f588, type: 3}
   m_correctSound: {fileID: 8300000, guid: 2c3567a8800854b4b9a8265ee0c5bff6, type: 3}
   m_tryAgainSound: {fileID: 8300000, guid: 5500179a54e2d09478f112e3fba85f94, type: 3}
+  m_cardFlipSound: {fileID: 8300000, guid: 02065d91e2a0d6d468e963725229f462, type: 3}
   m_startingCards:
   - {fileID: 1973000069336978, guid: 6429ba93c9fb60845beae28b4969ea0b, type: 3}
   - {fileID: 1616970756024692, guid: cc9e5db2ea5eeee46862f091a8c95996, type: 3}

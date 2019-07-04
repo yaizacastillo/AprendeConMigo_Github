@@ -16,7 +16,7 @@ public class LevelScript : MonoBehaviour {
 
     [HideInInspector] public AudioClip m_lastClip = null;
 
-    public AudioClip m_clickSound, m_correctSound, m_tryAgainSound;
+    public AudioClip m_clickSound, m_correctSound, m_tryAgainSound, m_cardFlipSound;
 
     private List<Vector3> m_cardsPosition = new List<Vector3>();
 
@@ -126,6 +126,7 @@ public class LevelScript : MonoBehaviour {
                 Animator l_cardAnimator = card.GetComponent<Animator>();
                 l_showingCards.Add(l_cardAnimator);
                 l_cardAnimator.SetTrigger("Disable");
+                m_audioSource.PlayOneShot(m_cardFlipSound);
 
                 yield return new WaitForSeconds(0.5f);
             }
@@ -136,6 +137,7 @@ public class LevelScript : MonoBehaviour {
         foreach (Animator a in l_showingCards)
         {
             a.SetTrigger("Enable");
+            m_audioSource.PlayOneShot(m_cardFlipSound);
         }
 
         yield return new WaitForSeconds(1.0f);
@@ -211,6 +213,7 @@ public class LevelScript : MonoBehaviour {
                 {
                     StartCoroutine(PlaySound(m_correctSound, false));
                     hitInfo.transform.GetComponent<Animator>().SetTrigger("Disable");
+                    m_audioSource.PlayOneShot(m_cardFlipSound);
                     hitInfo.transform.GetComponent<Collider2D>().enabled = false;
                     //PlayRandomSound();
                 }
