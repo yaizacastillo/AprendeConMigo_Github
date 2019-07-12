@@ -1,3 +1,6 @@
 ﻿public class SaveState {
-    public int m_levelCompleted = 0;
+    public bool m_animalsCompleted = false;
+    public bool m_clothesCompleted = false;
+    public bool m_colorsCompleted = false;
+    public bool m_numbersCompleted = false;
 }

@@ -7,9 +7,16 @@ public class SaveManager : MonoBehaviour {
     public static SaveManager Instance { set; get; }
     public SaveState m_saveState;
 
+    static bool created = false;
+
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        if (!created)
+        {
+            DontDestroyOnLoad(gameObject);
+            created = true;
+        }
+
         Instance = this;
         Load();
     }
@@ -30,14 +37,29 @@ public class SaveManager : MonoBehaviour {
         PlayerPrefs.SetString("Save", HelperScript.Serialize<SaveState>(m_saveState));
     }
 
-    public void LevelCompleted ()
+    public void LevelCompleted (string type)
     {
-        m_saveState.m_levelCompleted++;
+        switch(type)
+        {
+            case "animals":
+                m_saveState.m_animalsCompleted = true;
+                break;
+            case "clothes":
+                m_saveState.m_clothesCompleted = true;
+                break;
+            case "colors":
+                m_saveState.m_colorsCompleted = true;
+                break;
+            case "numbers":
+                m_saveState.m_numbersCompleted = true;
+                break;
+        }
         Save();
     }
 
     public void ResetSave()
     {
         PlayerPrefs.DeleteKey("Save");
+        Load();
     }
 }
